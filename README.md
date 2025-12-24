@@ -14,8 +14,6 @@ Welcome to **Studio Ghibli Sky & Catalog**, an interactive web experience inspir
 
 Click the GIF above to watch the full demo video on YouTube.
 
-> **Note:** Replace `demo/demo.gif` with the path to your GIF file and `YOUR_VIDEO_LINK` with your YouTube video ID.
-
 ---
 
 ## Features
