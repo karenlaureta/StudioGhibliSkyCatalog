@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Studio Ghibli Sky & Catalog</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Clouds -->
+<div class="cloud"></div>
+<div class="cloud"></div>
+<div class="cloud"></div>
+
+<!-- Moon Glow -->
+<div id="moon-glow"></div>
+<div id="starfield"></div>
+<!-- Sparkles Container -->
+<div id="sparkle-container"></div>
+
+<!-- Home Page -->
+<div id="home">
+  <div class="background-container">
+    <img src="images/tot.png" id="totoro" alt="Totoro">
+    <img src="effects/fly1.gif" id="overlay-right" alt="Fly">
+  </div>
+  
+  <div class="home-content">
+  <div class="title-wrapper">
+    <h1>
+      Welcome to the Ghibli Sky<br>
+      <span class="jp-title">ジブリの空へようこそ</span>
+    </h1>
+  </div>
+
+  <button id="enter">Step into the Clouds</button>
+</div>
+
+
+  <!-- Floating lanterns -->
+  <div id="lanterns-container"></div>
+</div>
+
+<!-- Catalog Page -->
+<div id="catalog" class="hidden">
+  <!-- Header Row: Title + Navigation + Controls -->
+  <div class="catalog-header">
+    <button id="back-home" class="back-button">← Back</button>
+    <!-- Left: Catalog Title + Tabs -->
+    <div class="catalog-left">
+      <h1 class="catalog-title">Studio Ghibli Catalog</h1>
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-category="films">Films</div>
+        <div class="tab" data-category="people">People</div>
+        <div class="tab" data-category="locations">Locations</div>
+        <div class="tab" data-category="species">Species</div>
+        <div class="tab" data-category="vehicles">Vehicles</div>
+      </div>
+    </div>
+
+    <!-- Right: Search, Filters, Refresh, Dark Toggle -->
+    <div class="catalog-right">
+      <div class="controls">
+        <input type="text" id="search" placeholder="Search by name/title...">
+        <label id="filter1-label" for="filter1">Filter 1:</label>
+        <select id="filter1"><option value="">All</option></select>
+        <label id="filter2-label" for="filter2">Filter 2:</label>
+        <select id="filter2"><option value="">All</option></select>
+        <button id="refresh">Refresh</button>
+        <button id="dark-toggle" aria-label="Toggle Dark Mode">🌙</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+  <!-- Loading Spinner (ABOVE pagination) -->
+  <div id="catalog-loader" class="loading hidden">
+    <div class="loading-spinner">
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+  </div>
+
+  <div id="film-container"></div>
+
+  <div class="pagination">
+    <button id="prev-page">Previous</button>
+    <span id="page-info">Page 1/3</span>
+    <button id="next-page">Next</button>
+  </div>
+</main>
+
+</div>
+
+<!-- Universal Modal -->
+<div id="film-modal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true">
+    <div class="modal-inner">
+    <span class="close" aria-label="Close modal">&times;</span>
+    <img id="modal-img" src="" alt="">
+    <h2 id="modal-title"></h2>
+    <div id="modal-badges"></div>
+    <div id="modal-details"></div>
+    <p id="modal-description"></p>
+  </div>
+  </div>
+</div>
+
+
+
+<!-- Background Music -->
+<audio id="bgm" src="bgm/sg_bgm.mp3" loop></audio>
+
+<footer>
+  <p>Powered by <a href="https://ghibliapi.vercel.app" target="_blank">Studio Ghibli API</a></p>
+</footer>
+<script src="script.js"></script>
+
+</body>
+</html>
