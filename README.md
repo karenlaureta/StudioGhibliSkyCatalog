@@ -6,13 +6,11 @@ Welcome to **Studio Ghibli Sky & Catalog**, an interactive web experience inspir
 
 ## Demo
 
+Watch the full demo video on YouTube.
 <p align="center">
-  <a href="https://www.youtube.com/embed/sW-OQv1GwLQ?si=RvcGuWNr4WayMadh" target="_blank">
-    <img src="demo/demo.gif" alt="Studio Ghibli Sky & Catalog Demo" width="600"/>
+  <a href="https://www.youtube.com/embed/sW-OQv1GwLQ?si=RvcGuWNr4WayMadh">
   </a>
 </p>
-
-Click the GIF above to watch the full demo video on YouTube.
 
 ---
 
