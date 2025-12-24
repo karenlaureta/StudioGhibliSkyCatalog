@@ -39,4 +39,4 @@ A visually immersive web application that lets users explore Studio Ghibli films
 
 1. Clone or download this repository.
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/karenlaureta/StudioGhibliSkyCatalog>
