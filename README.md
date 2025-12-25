@@ -49,10 +49,3 @@ cd StudioGhibliSkyCatalog
 2. Open the project in **VS Code** or your favorite editor.
 
 3. Open `index.html` in a browser (double-click or use **Live Server** in VS Code).
-
-1. Clone or download this repository.
-   ```bash
-   git clone <repository-url>
-````
-
-```
