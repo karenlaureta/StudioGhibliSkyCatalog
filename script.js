@@ -627,6 +627,6 @@ const favSortSelect = document.getElementById('fav-sort');
 favSortSelect.addEventListener('change', () => {
   if (activeCategory === 'favorites') {
     currentPage = 1;
-    displayFavorites();   // 👈 instant re-render
+    displayFavorites();
   }
 });
