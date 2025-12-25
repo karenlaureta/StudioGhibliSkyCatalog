@@ -6,11 +6,12 @@ A visually immersive web application that lets users explore Studio Ghibli films
 
 - Home page with animated Totoro, floating lanterns, clouds, and sparkles.
 - Catalog of Studio Ghibli data:
-  - Films
-  - People
-  - Locations
-  - Species
-  - Vehicles
+  - **Films**
+  - **People**
+  - **Locations**
+  - **Species**
+  - **Vehicles**
+  - **Favorites**: Users can mark items as favorites, view them in a dedicated tab, and sort them by category. Favorite items are persisted in `localStorage`.
 - Search, filtering, and pagination.
 - Favorite items stored in `localStorage`.
 - Dark mode toggle.
@@ -40,3 +41,6 @@ A visually immersive web application that lets users explore Studio Ghibli films
 1. Clone or download this repository.
    ```bash
    git clone <repository-url>
+````
+
+```
