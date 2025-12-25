@@ -1,6 +1,22 @@
 # Studio Ghibli Sky & Catalog
 
-A visually immersive web application that lets users explore Studio Ghibli films, characters, locations, species, and vehicles. Features include dark mode, interactive modals, floating sparkles, fireflies, clouds, lanterns, and background music.
+Welcome to **Studio Ghibli Sky & Catalog**, an interactive web experience inspired by the magical world of Studio Ghibli. Explore films, characters, locations, species, and vehicles with animated effects, floating lanterns, sparkles, and immersive dark mode.
+
+---
+
+## Demo
+
+Click the image below to watch the full demo video on YouTube.
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=sW-OQv1GwLQ">
+    <img src="https://img.youtube.com/vi/sW-OQv1GwLQ/maxresdefault.jpg"
+         alt="Studio Ghibli Sky & Catalog Demo"
+         width="700">
+  </a>
+</p>
+
+
+---
 
 ## Features
 
@@ -19,24 +35,20 @@ A visually immersive web application that lets users explore Studio Ghibli films
 - Animated sparkles, stars, moon glow, and fireflies.
 - Background music playback.
 
-## Technologies Used
+---
 
-- HTML5
-- CSS3 (including animations and dark mode)
-- JavaScript (ES6+)
-- Studio Ghibli API (`https://ghibliapi.vercel.app`)
+## Installation / Running the Project
 
-## Getting Started
+1. Clone the repository:
 
-### Prerequisites
+```bash
+git clone https://github.com/karenlaureta/StudioGhibliSkyCatalog.git
+cd StudioGhibliSkyCatalog
+```
 
-- A modern web browser (Chrome, Firefox, Edge, Safari)
-- Local server recommended for proper file loading (optional but preferred):
-  - VS Code Live Server extension
-  - Python HTTP server (`python -m http.server`)
-  - Any other local HTTP server
+2. Open the project in **VS Code** or your favorite editor.
 
-### Installation
+3. Open `index.html` in a browser (double-click or use **Live Server** in VS Code).
 
 1. Clone or download this repository.
    ```bash

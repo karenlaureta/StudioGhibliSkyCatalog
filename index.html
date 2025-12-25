@@ -56,6 +56,7 @@
         <div class="tab" data-category="locations">Locations</div>
         <div class="tab" data-category="species">Species</div>
         <div class="tab" data-category="vehicles">Vehicles</div>
+        <div class="tab favorites-tab" data-category="favorites">❤️ Favorites</div>
       </div>
     </div>
 
@@ -69,6 +70,11 @@
         <select id="filter2"><option value="">All</option></select>
         <button id="refresh">Refresh</button>
         <button id="dark-toggle" aria-label="Toggle Dark Mode">🌙</button>
+        <select id="fav-sort" class="hidden">
+          <option value="custom">Custom Order</option>
+          <option value="category">By Category</option>
+        </select>
+        <button id="export-favs" class="hidden">Export ❤️</button>
       </div>
     </div>
   </div>

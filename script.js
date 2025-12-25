@@ -35,6 +35,7 @@ const imageMaps = {
 let allData = {films:[], people:[], locations:[], species:[], vehicles:[]};
 let activeCategory = 'films';
 let favorites = JSON.parse(localStorage.getItem('ghibliFavorites') || '[]');
+let favoriteOrder = JSON.parse(localStorage.getItem('ghibliFavoriteOrder') || '[]');
 
 /* Pagination */
 let currentPage = 1;
@@ -69,7 +70,7 @@ backBtn.addEventListener('click', () => {
 
   // Stop background music
   bgm.pause();
-  bgm.currentTime = 0; // optional: reset to start
+  bgm.currentTime = 0;
 });
 
 darkToggle.addEventListener('click', () => {
@@ -83,10 +84,17 @@ filter2Select.addEventListener('change', () => { currentPage = 1; showSpinner();
 refreshButton.addEventListener('click', () => fetchAllCategories());
 
 document.getElementById('prev-page').addEventListener('click', () => {
-  if(currentPage > 1) { currentPage--; showSpinner(); filterCategory(); }
+  if (currentPage > 1) {
+    currentPage--;
+    showSpinner();
+    activeCategory === 'favorites' ? displayFavorites() : filterCategory();
+  }
 });
+
 document.getElementById('next-page').addEventListener('click', () => {
-  currentPage++; showSpinner(); filterCategory();
+  currentPage++;
+  showSpinner();
+  activeCategory === 'favorites' ? displayFavorites() : filterCategory();
 });
 
 /* Close modal */
@@ -126,11 +134,31 @@ async function fetchAllCategories() {
 function displayCategory(cat){
   activeCategory = cat;
   currentPage = 1;
-  tabs.forEach(t => t.classList.remove('active'));
-  document.querySelector(`.tab[data-category="${cat}"]`).classList.add('active');
+
+  tabs.forEach(t=>{
+    t.classList.remove('active','favorites-active');
+    if(t.dataset.category===cat){
+      t.classList.add(cat==='favorites'?'favorites-active':'active');
+    }
+  });
+
+  document.getElementById('fav-sort').classList.toggle('hidden',cat!=='favorites');
+  document.getElementById('export-favs').classList.toggle('hidden',cat!=='favorites');
+
+  if(cat==='favorites'){
+    filter1Label.textContent='';
+    filter2Label.textContent='';
+    filter1Select.innerHTML='';
+    filter2Select.innerHTML='';
+    searchInput.value='';
+    displayFavorites();
+    return;
+  }
+
   populateFilters(cat);
   filterCategory();
 }
+
 
 /* ---------------- Filters ---------------- */
 function populateFilters(cat){
@@ -197,15 +225,35 @@ else if(cat === 'vehicles') img = imageMaps.vehicles[item.name] || 'vehicle.jpg'
   });
 }
 
-function toggleFavorite(id, btn){
-  if(favorites.includes(id)) favorites = favorites.filter(i=>i!==id);
-  else favorites.push(id);
+function toggleFavorite(id, btn) {
+  const isFav = favorites.includes(id);
+
+  if (isFav) {
+    favorites = favorites.filter(i => i !== id);
+    favoriteOrder = favoriteOrder.filter(i => i !== id);
+  } else {
+    favorites.push(id);
+    favoriteOrder.push(id);
+  }
+
+  // Update button visual immediately
+  btn.textContent = favorites.includes(id) ? '❤️' : '🤍';
+
+  // Animate
+  btn.classList.add('animate');
+  setTimeout(() => btn.classList.remove('animate'), 300);
+
+  // Persist
   localStorage.setItem('ghibliFavorites', JSON.stringify(favorites));
-  btn.textContent = favorites.includes(id) ? '❤️':'🤍';
+  localStorage.setItem('ghibliFavoriteOrder', JSON.stringify(favoriteOrder));
 }
+
+
 
 /* ---------------- Modal ---------------- */
 async function openModal(item, img, cat){
+  modal.classList.toggle('favorites-modal', activeCategory === 'favorites');
+  modal.classList.add('show');
   modal.style.display='flex';
   modal.setAttribute('aria-hidden','false');
   modalImg.src = img || 'images/fallback.jpg';
@@ -406,5 +454,179 @@ function animateFireflies() {
 
 animateFireflies();
 
+function displayFavorites() {
+  hideSpinner();
+  container.innerHTML = '';
 
+  const sortMode = document.getElementById('fav-sort').value;
 
+  // Collect favorites
+  const favItems = [];
+  for (const cat in allData) {
+    allData[cat].forEach(item => {
+      if (favorites.includes(item.id)) {
+        favItems.push({ ...item, __category: cat });
+      }
+    });
+  }
+
+  if (!favItems.length) {
+    container.innerHTML = '<p>No favorites yet 💔</p>';
+    pageInfo(1, 1);
+    return;
+  }
+
+  // Preserve custom order
+  favItems.sort(
+    (a, b) =>
+      favoriteOrder.indexOf(a.id) - favoriteOrder.indexOf(b.id)
+  );
+
+  if (sortMode === 'category') {
+    renderFavoritesByCategory(favItems);
+  } else {
+    paginateAndRender(favItems, true);
+  }
+}
+
+function paginateAndRender(items,isFavorites=false){
+  const totalPages=Math.ceil(items.length/itemsPerPage);
+  if(currentPage>totalPages) currentPage=totalPages;
+
+  const start=(currentPage-1)*itemsPerPage;
+  const pageItems=items.slice(start,start+itemsPerPage);
+
+  pageItems.forEach(item=>{
+    renderCard(item,item.__category,true);
+  });
+
+  pageInfo(currentPage,totalPages);
+}
+
+function pageInfo(c,t){
+  document.getElementById('page-info').textContent=`Page ${c}/${t}`;
+}
+
+function renderCard(item, cat, isFav = false, returnOnly = false) {
+  const card=document.createElement('div');
+  card.className='film-card';
+  card.draggable=isFav;
+
+  let img='fallback.jpg';
+  if(cat==='films') img=item.image||item.movie_banner||img;
+  else if(cat==='people') img=imageMaps.people[item.name]||img;
+  else if(cat==='locations') img=imageMaps.locations[item.name]||img;
+  else if(cat==='species') img=imageMaps.species[item.name]||img;
+  else if(cat==='vehicles') img=imageMaps.vehicles[item.name]||img;
+
+  card.innerHTML=`
+    <div class="favorite-btn">❤️</div>
+    <img src="${img}">
+    <div class="content">
+      <h2>${item.title||item.name}</h2>
+      ${isFav?`<p style="opacity:.6">${cat.toUpperCase()}</p>`:''}
+    </div>
+  `;
+
+  const favBtn=card.querySelector('.favorite-btn');
+  favBtn.onclick=e=>{
+    e.stopPropagation();
+    toggleFavorite(item.id,favBtn);
+    if(isFav) displayFavorites();
+  };
+
+  card.onclick=()=>openModal(item,img,cat);
+  enableDrag(card,item.id);
+
+  if (returnOnly) return card;
+container.appendChild(card);
+}
+
+function enableDrag(card,id){
+  card.addEventListener('dragstart',()=>{
+    card.classList.add('dragging');
+    card.dataset.dragId=id;
+  });
+
+  card.addEventListener('dragend',()=>{
+    card.classList.remove('dragging');
+    saveOrder();
+  });
+
+  container.addEventListener('dragover',e=>{
+    e.preventDefault();
+    const dragging=document.querySelector('.dragging');
+    const after=getDragAfter(e.clientY);
+    after?container.insertBefore(dragging,after):container.appendChild(dragging);
+  });
+}
+
+function getDragAfter(y){
+  const els=[...container.querySelectorAll('.film-card:not(.dragging)')];
+  return els.reduce((c,el)=>{
+    const box=el.getBoundingClientRect();
+    const offset=y-box.top-box.height/2;
+    return offset<0 && offset>c.offset?{offset,el}:c;
+  },{offset:-Infinity}).el;
+}
+
+function saveOrder(){
+  favoriteOrder=[...container.children].map(c=>c.querySelector('.favorite-btn').onclick?.id).filter(Boolean);
+  localStorage.setItem('ghibliFavoriteOrder',JSON.stringify(favoriteOrder));
+}
+
+document.getElementById('export-favs').onclick=()=>{
+  const data=favorites.map(id=>{
+    for(const cat in allData){
+      const item=allData[cat].find(i=>i.id===id);
+      if(item) return {...item,category:cat};
+    }
+  });
+
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='ghibli-favorites.json';
+  a.click();
+};
+
+function renderFavoritesByCategory(items) {
+  container.innerHTML = '';
+
+  const grouped = {};
+
+  items.forEach(item => {
+    if (!grouped[item.__category]) grouped[item.__category] = [];
+    grouped[item.__category].push(item);
+  });
+
+  Object.entries(grouped).forEach(([cat, list]) => {
+    const section = document.createElement('div');
+    section.className = 'fav-category';
+
+    const title = document.createElement('h3');
+    title.textContent = cat.toUpperCase();
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'fav-grid';
+
+    list.forEach(item => {
+      const card = renderCard(item, cat, true, true);
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+
+  document.getElementById('page-info').textContent = 'Grouped by Category';
+}
+const favSortSelect = document.getElementById('fav-sort');
+
+favSortSelect.addEventListener('change', () => {
+  if (activeCategory === 'favorites') {
+    currentPage = 1;
+    displayFavorites();   // 👈 instant re-render
+  }
+});
