@@ -10,7 +10,7 @@ Click the image below to watch the full demo video on YouTube:
 
 <p align="center">
   <a href="https://youtu.be/6Uq6ZjmJaJ8">
-    <img src="https://img.youtube.com/vi/6Uq6ZjmJaJ8/hqdefault.jpg" alt="Studio Ghibli Sky & Catalog Demo" style="width:560px; height:315px;">
+    <img src="https://img.youtube.com/vi/6Uq6ZjmJaJ8/hqdefault.jpg" alt="Studio Ghibli Sky & Catalog Demo" width="700">
   </a>
 </p>
 
