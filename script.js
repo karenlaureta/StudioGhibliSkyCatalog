@@ -590,6 +590,82 @@ document.getElementById('export-favs').onclick=()=>{
   a.click();
 };
 
+/* ================= FLOATING LANTERNS ================= */
+
+const lanternContainer = document.getElementById('lanterns-container');
+let lanternInterval;
+
+/* Detect if lanterns should run */
+function lanternsAllowed() {
+  return (
+    home.style.display !== 'none' ||
+    catalog.style.display !== 'none'
+  );
+}
+
+/* Create one lantern */
+function createLantern() {
+  if (!lanternContainer || !lanternsAllowed()) return;
+
+  const lantern = document.createElement('div');
+  lantern.className = 'lantern';
+
+  const startX = Math.random() * window.innerWidth;
+  let y = window.innerHeight + 60;
+
+  lantern.style.left = startX + 'px';
+  lantern.style.top = y + 'px';
+
+  const drift = (Math.random() - 0.5) * 0.3;
+  const speed = 0.25 + Math.random() * 0.4;
+  let phase = Math.random() * 360;
+
+  lanternContainer.appendChild(lantern);
+
+  function floatLantern() {
+    phase += 0.35;
+    y -= speed;
+
+    lantern.style.transform =
+      `translateX(${Math.sin(phase * Math.PI / 180) * 8}px)`;
+
+    lantern.style.top = y + 'px';
+
+    if (y > -80 && lanternsAllowed()) {
+      requestAnimationFrame(floatLantern);
+    } else {
+      lantern.remove();
+    }
+  }
+
+  floatLantern();
+}
+
+/* Start lanterns */
+function startLanterns() {
+  stopLanterns();
+  lanternInterval = setInterval(createLantern, 2000);
+}
+
+/* Stop lanterns */
+function stopLanterns() {
+  clearInterval(lanternInterval);
+  lanternContainer.innerHTML = '';
+}
+
+/* Initial load */
+startLanterns();
+
+/* Page navigation handling */
+enterBtn.addEventListener('click', () => {
+  setTimeout(startLanterns, 600);
+});
+
+backBtn.addEventListener('click', () => {
+  setTimeout(startLanterns, 600);
+});
+
+
 function renderFavoritesByCategory(items) {
   container.innerHTML = '';
 
