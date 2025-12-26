@@ -8,7 +8,7 @@ Welcome to **Studio Ghibli Sky & Catalog**, an interactive web experience inspir
 
 Click the image below to watch the full demo video on YouTube:
 
-[![Studio Ghibli Sky & Catalog Demo](https://img.youtube.com/vi/6Uq6ZjmJaJ8/hqdefault.jpg)](https://youtu.be/6Uq6ZjmJaJ8)
+[![Studio Ghibli Sky & Catalog Demo](https://img.youtube.com/vi/6Uq6ZjmJaJ8/maxresdefault.jpg)](https://youtu.be/6Uq6ZjmJaJ8)
 
 
 
