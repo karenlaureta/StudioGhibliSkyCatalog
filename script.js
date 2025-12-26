@@ -644,7 +644,7 @@ function createLantern() {
 /* Start lanterns */
 function startLanterns() {
   stopLanterns();
-  lanternInterval = setInterval(createLantern, 2000);
+  lanternInterval = setInterval(createLantern, 1500);
 }
 
 /* Stop lanterns */
